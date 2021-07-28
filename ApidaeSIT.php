@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Service;
+namespace Apidae;
 
 use PDO;
-use PDOException;
-use PierreGranger\ApidaeException;
 
 class ApidaeSIT extends PDO
 {
