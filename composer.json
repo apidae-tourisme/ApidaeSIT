@@ -1,0 +1,9 @@
+{
+    "name": "apidae-tourisme/apidaesit",
+    "description": "Apidae SIT",
+    "autoload": {
+        "psr-4": {
+            "Apidae\\": "src/"
+        }
+    }
+}
