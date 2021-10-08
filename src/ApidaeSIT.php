@@ -40,7 +40,7 @@ class ApidaeSIT extends PDO
         'ACTIVITE' => '',
         'COMMERCE_ET_SERVICE' => '',
         'DOMAINE_SKIABLE' => '',
-        'EQUIPEMENT' => '',
+        'EQUIPEMENT' => 'equipement',
         'STRUCTURE' => '',
         'FETE_ET_MANIFESTATION' => '',
         'HEBERGEMENT_COLLECTIF' => '',
@@ -616,6 +616,9 @@ class ApidaeSIT extends PDO
             $joins[] = ' left outer join sitra.' . $table_type . 'typelabel c on c.id = t.typelabel_id ';
             $selects[] = 'cp.libellefr as classementprefectoral';
             $joins[] = ' left outer join sitra.' . $table_type . 'classementprefectoral cp on cp.id = t.classementprefectoral_id ';
+        } elseif ($table_type == 'equipement') {
+            $selects[] = 'y.libellefr as ' . $table_type . 'type';
+            $joins[] = ' left outer join sitra.' . $table_type . 'rubrique y on y.id = t.rubrique_id ';
         }
 
         $sql = ' select ' . implode(', ', $selects) . ' from sitra.' . $table_type . ' t
@@ -678,6 +681,18 @@ class ApidaeSIT extends PDO
                     'champs' => ['t.libellefr as typehabitation'],
                     'tablenn' => 'hebergementlocatif_typehabitation',
                     'joinsnn' => ['typeshabitation_id', 'hebergementlocatif_id']
+                ]
+            ],
+            'equipement' => [
+                'natureterrain' => [
+                    'champs' => ['t.libellefr as natureterrain'],
+                    'tablenn' => 'equipement_natureterrain',
+                    'joinsnn' => ['naturesterrain_id', 'equipement_id']
+                ],
+                'equipementactivite' => [
+                    'champs' => ['t.libellefr as equipementactivite'],
+                    'tablenn' => 'equipement_equipementactivite',
+                    'joinsnn' => ['activites_id', 'equipement_id']
                 ]
             ]
         ];
