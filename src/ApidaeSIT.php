@@ -82,22 +82,22 @@ class ApidaeSIT extends PDO
     private $cache;
 
     /*
-    public function offresMultipleValidated() {
-        $sql = "select
-                count(o.state), o.reference_id, o.membreproprietaire_id
-            from
-                sitra.objettouristique o
-            where
-                o.state = 'VALIDATED'
-            group by
-                o.state, o.reference_id
-            having
-                count(o.state) > 1
-            order by
-                count(o.state) desc
-        " ;
-    }
-    */
+     public function offresMultipleValidated() {
+     $sql = "select
+     count(o.state), o.reference_id, o.membreproprietaire_id
+     from
+     sitra.objettouristique o
+     where
+     o.state = 'VALIDATED'
+     group by
+     o.state, o.reference_id
+     having
+     count(o.state) > 1
+     order by
+     count(o.state) desc
+     " ;
+     }
+     */
 
     public function getHistoriqueActions($id_offre, $aspects = null, $champs = null)
     {
@@ -108,7 +108,8 @@ class ApidaeSIT extends PDO
 
         foreach ($demandes as $i => &$objet) {
             foreach ($objet as $cle => $valeur) {
-                if ($valeur == null || $valeur == '') unset($objet[$cle]);
+                if ($valeur == null || $valeur == '')
+                    unset($objet[$cle]);
                 if (in_array($cle, $prefixe)) {
                     $objet['demande_' . $cle] = $valeur;
                     unset($objet[$cle]);
@@ -117,8 +118,10 @@ class ApidaeSIT extends PDO
         }
         foreach ($objettouristique as $i => &$objet) {
             foreach ($objet as $cle => $valeur) {
-                if ($valeur == null || $valeur == '') unset($objet[$cle]);
-                if ($cle == 'type') $objet['type_objet'] = $valeur;
+                if ($valeur == null || $valeur == '')
+                    unset($objet[$cle]);
+                if ($cle == 'type')
+                    $objet['type_objet'] = $valeur;
                 if (in_array($cle, $prefixe)) {
                     $objet['objettouristique_' . $cle] = $valeur;
                     unset($objet[$cle]);
@@ -133,7 +136,8 @@ class ApidaeSIT extends PDO
 
         foreach ($results as $k => &$r) {
             foreach ($r as $k2 => &$v) {
-                if (trim($v) == '') unset($r[$k2]);
+                if (trim($v) == '')
+                    unset($r[$k2]);
                 else {
                     if (preg_match('#^[0-9]{4}-[0-9]{2}-[0-9]{2}#', $v))
                         $v = new \DateTime($v);
@@ -160,20 +164,31 @@ class ApidaeSIT extends PDO
                 'step', 'demandeworkflowtype', 'aspect', 'creationtype'
             ];
 
-            if (in_array($a, $firsts)) return false;
-            if (in_array($b, $firsts)) return true;
+            if (in_array($a, $firsts))
+                return false;
+            if (in_array($b, $firsts))
+                return true;
 
-            if (preg_match('#date$#', $a) && !preg_match('#date$#', $b)) return true;
-            if (!preg_match('#date$#', $a) && preg_match('#date$#', $b)) return false;
-            if (preg_match('#date$#', $a) && preg_match('#date$#', $b)) return strcmp($a, $b);
+            if (preg_match('#date$#', $a) && !preg_match('#date$#', $b))
+                return true;
+            if (!preg_match('#date$#', $a) && preg_match('#date$#', $b))
+                return false;
+            if (preg_match('#date$#', $a) && preg_match('#date$#', $b))
+                return strcmp($a, $b);
 
-            if (preg_match('#_id$#', $a) && !preg_match('#_id$#', $b)) return true;
-            if (!preg_match('#_id$#', $a) && preg_match('#_id$#', $b)) return false;
-            if (preg_match('#_id$#', $a) && preg_match('#_id$#', $b)) return strcmp($a, $b);
+            if (preg_match('#_id$#', $a) && !preg_match('#_id$#', $b))
+                return true;
+            if (!preg_match('#_id$#', $a) && preg_match('#_id$#', $b))
+                return false;
+            if (preg_match('#_id$#', $a) && preg_match('#_id$#', $b))
+                return strcmp($a, $b);
 
-            if (preg_match('#_id$#', $a) && !preg_match('#_id$#', $b)) return true;
-            if (!preg_match('#_id$#', $a) && preg_match('#_id$#', $b)) return false;
-            if (preg_match('#_id$#', $a) && preg_match('#_id$#', $b)) return strcmp($a, $b);
+            if (preg_match('#_id$#', $a) && !preg_match('#_id$#', $b))
+                return true;
+            if (!preg_match('#_id$#', $a) && preg_match('#_id$#', $b))
+                return false;
+            if (preg_match('#_id$#', $a) && preg_match('#_id$#', $b))
+                return strcmp($a, $b);
         });
 
         return $columns;
@@ -182,23 +197,27 @@ class ApidaeSIT extends PDO
     public function getMembre($id)
     {
         return $this->get(['table' => 'membresitra', 'wheres' => ['id' => $id]]);
-        //$sql = " select * from sitra.membresitra where id = :id ";
-        //return $this->fetchAll($sql, ['id' => $id]);
+    //$sql = " select * from sitra.membresitra where id = :id ";
+    //return $this->fetchAll($sql, ['id' => $id]);
     }
 
     public function fetchAll($sql, $params = null)
     {
         $sth = $this->prepare($sql);
-        if ($params != null) $sth->execute($params);
-        else $sth->execute();
+        if ($params != null)
+            $sth->execute($params);
+        else
+            $sth->execute();
         return $sth->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function fetch($sql, $params = null)
     {
         $sth = $this->prepare($sql);
-        if ($params != null) $sth->execute($params);
-        else $sth->execute();
+        if ($params != null)
+            $sth->execute($params);
+        else
+            $sth->execute();
         return $sth->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -214,7 +233,8 @@ class ApidaeSIT extends PDO
         $champs = isset($params['champs']) ? $params['champs'] : ['*'];
         $order = isset($params['order']) ? $params['order'] : null;
 
-        if (!preg_match('#^sitra#', $table)) $table = 'sitra.' . $table;
+        if (!preg_match('#^sitra#', $table))
+            $table = 'sitra.' . $table;
 
         $sql = 'select ' . implode(',', $champs) . ' from ' . $table;
         $params_sql = [];
@@ -258,9 +278,12 @@ class ApidaeSIT extends PDO
 
         if (isset(self::cleTables[$cle])) {
             $params['table'] = self::cleTables[$cle]['table'];
-            if (isset(self::cleTables[$cle]['champs'])) $params['champs'] = self::cleTables[$cle]['champs'];
-        } else {
-            if (!preg_match('#^([a-z_]+)_id$#', $cle, $match)) throw new \Exception('Incorrect cle parameter');
+            if (isset(self::cleTables[$cle]['champs']))
+                $params['champs'] = self::cleTables[$cle]['champs'];
+        }
+        else {
+            if (!preg_match('#^([a-z_]+)_id$#', $cle, $match))
+                throw new \Exception('Incorrect cle parameter');
             $cle_table = $match[1];
 
             $params['table'] = $cle_table;
@@ -275,7 +298,8 @@ class ApidaeSIT extends PDO
             }
         }
 
-        if ($params['table'] == null) throw new \Exception('No table found');
+        if ($params['table'] == null)
+            throw new \Exception('No table found');
 
         $results = $this->get($params);
 
@@ -286,7 +310,7 @@ class ApidaeSIT extends PDO
     {
         $tmp = $this->fetchAll(
             " select exists ( select * from information_schema.tables where table_schema = 'sitra' and table_name = :table ) ",
-            ['table' => $table]
+        ['table' => $table]
         );
         $exists = @array_shift(@array_shift($tmp));
         return $exists;
@@ -313,13 +337,14 @@ class ApidaeSIT extends PDO
     public function getVersions(int $id_obt, string $aspectname = 'STANDARD')
     {
         $wheres = ['reference_id' => $id_obt];
-        if (isset($aspectname) && $aspectname != '') $wheres['aspectname'] = $aspectname;
+        if (isset($aspectname) && $aspectname != '')
+            $wheres['aspectname'] = $aspectname;
         $versions = $this->get(['table' => 'objettouristique', 'wheres' => $wheres, 'order' => 'datecreation desc']);
         $versions = $this->setResultsDateTime($versions);
         $ret = [];
         foreach ($versions as $v) {
             $ret[$v['id']] = $v;
-            //unset($ret[$v['id']]['id']);
+        //unset($ret[$v['id']]['id']);
         }
         return $ret;
     }
@@ -384,12 +409,14 @@ class ApidaeSIT extends PDO
 
                 $folder = $cle_principale == 'illustrations' ? 'images' : 'documents';
                 $path = 'https://static.apidae-tourisme.com/filestore/objets-touristiques/' . $folder . '/' . $f['path'];
-                if ($f['brouillon_id'] != null) $path = 'https://static.apidae-tourisme.com/filestore/objets-touristiques-brouillons/';
+                if ($f['brouillon_id'] != null)
+                    $path = 'https://static.apidae-tourisme.com/filestore/objets-touristiques-brouillons/';
 
                 $fichier = [];
                 if ($f['link'] == true) {
                     $fichier['url'] = $f['url'];
-                } else {
+                }
+                else {
                     if ($f['brouillon_id'] != null)
                         $fichier['url'] = $path . $f['brouillon_id'] . '.' . $f['brouillon_extension'];
                     else
@@ -421,7 +448,8 @@ class ApidaeSIT extends PDO
                     $status = null;
                     if (curl_errno($ch)) {
                         $status = curl_error($ch);
-                    } else {
+                    }
+                    else {
                         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                     }
                     curl_close($ch);
@@ -444,7 +472,8 @@ class ApidaeSIT extends PDO
             if (isset($version[$cle_principale])) {
                 foreach ($version[$cle_principale] as $illus) {
                     if (isset($illus['status'])) {
-                        if (!isset($status[$illus['status']])) $status[$illus['status']] = 0;
+                        if (!isset($status[$illus['status']]))
+                            $status[$illus['status']] = 0;
                         $status[$illus['status']]++;
                     }
                 }
@@ -503,7 +532,8 @@ class ApidaeSIT extends PDO
                     $build = [];
                     foreach (self::langs as $lang)
                         $selects[$table . $lang] = $table . '.libelle' . $lang . ' as ' . $categorie . '__' . $table . '__trad__' . $lang;
-                } else {
+                }
+                else {
                     $cle = $table . '_id';
                     $table_alias = $table;
                     if (isset($details['type']) && $details['type'] == 'objettouristiquereference')
@@ -514,8 +544,10 @@ class ApidaeSIT extends PDO
                     }
 
                     $join = ' left outer join sitra.' . $table . ' ' . $table_alias . ' on ';
-                    if (isset($details['join_on'])) $join .= $details['join_on'];
-                    else $join .= $table_alias . '.id = o.' . $cle;
+                    if (isset($details['join_on']))
+                        $join .= $details['join_on'];
+                    else
+                        $join .= $table_alias . '.id = o.' . $cle;
 
                     $joins[$table_alias] = $join;
                 }
@@ -537,7 +569,8 @@ class ApidaeSIT extends PDO
                 if (preg_match('#^([a-z]+)__([a-z]+)__([a-z0-9]+)$#', $cle_champ, $reg)) {
                     $v[$reg[1]][$reg[2]][$reg[3]] = $valeur_champ;
                     unset($v[$cle_champ]);
-                } elseif (preg_match('#^([a-z]+)__([a-z]+)__trad__([a-z0-9]+)$#', $cle_champ, $reg)) {
+                }
+                elseif (preg_match('#^([a-z]+)__([a-z]+)__trad__([a-z0-9]+)$#', $cle_champ, $reg)) {
                     $v[$reg[1]][$reg[2]][$reg[3]] = $valeur_champ;
                     unset($v[$cle_champ]);
                 }
@@ -548,7 +581,8 @@ class ApidaeSIT extends PDO
 
         // Traitement à part pour les moyens de com'
         $coords = ['coordonnee as fr'];
-        foreach (self::langs as $lang) $coords[$lang] = 'coordonnee' . $lang . ' as ' . $lang;
+        foreach (self::langs as $lang)
+            $coords[$lang] = 'coordonnee' . $lang . ' as ' . $lang;
         unset($coords['fr']);
         $sql = 'select o.id as id_version, m.identifiant, mctype.libellefr as mctype, ' . implode(', ', $coords) . '
             from sitra.objettouristique_moyencommunication om 
@@ -560,7 +594,8 @@ class ApidaeSIT extends PDO
         $mcs = $this->fetchAll($sql, ['id_offre' => $id_offre, 'aspectname' => $aspectname]);
         foreach ($mcs as $mc) {
             $coords = [];
-            foreach (self::langs as $lang) $coords[$lang] = $mc[$lang];
+            foreach (self::langs as $lang)
+                $coords[$lang] = $mc[$lang];
             $versions[$mc['id_version']]['moyenscom'][$mc['identifiant']] = $coords;
         }
 
@@ -582,12 +617,15 @@ class ApidaeSIT extends PDO
             $sql = ' select o.type from sitra.objettouristique o inner join sitra.objettouristiquereference r on r.id = o.reference_id 
             where r.id = :id_offre and o.aspectname = :aspectname order by o.datemodification desc limit 1 ';
             $type = $this->fetch($sql, ['id_offre' => $id_offre, 'aspectname' => $aspectname]);
-            if ($type) $type = $type['type'];
+            if ($type)
+                $type = $type['type'];
         }
-        if (!$type || !isset(self::tables_types_objet[$type])) return false;
+        if (!$type || !isset(self::tables_types_objet[$type]))
+            return false;
 
         $table_type = self::tables_types_objet[$type];
-        if ($table_type == '') return false;
+        if ($table_type == '')
+            return false;
 
         $selects = ['t.*'];
         $joins = [
@@ -604,19 +642,22 @@ class ApidaeSIT extends PDO
             $joins[] = ' left outer join sitra.' . $table_type . 'type y on y.id = t.' . $table_type . 'type_id ';
             $selects[] = 'c.libellefr as classement';
             $joins[] = ' left outer join sitra.' . $table_type . 'classement c on c.id = t.classement_id ';
-        } elseif ($table_type == 'hotellerie') {
+        }
+        elseif ($table_type == 'hotellerie') {
             $selects[] = 'y.libellefr as ' . $table_type . 'type';
             $joins[] = ' left outer join sitra.' . $table_type . 'type y on y.id = t.' . $table_type . 'type_id ';
             $selects[] = 'c.libellefr as classement';
             $joins[] = ' left outer join sitra.' . $table_type . 'classement c on c.id = t.classement_id ';
-        } elseif ($table_type == 'hebergementlocatif') {
+        }
+        elseif ($table_type == 'hebergementlocatif') {
             $selects[] = 'y.libellefr as ' . $table_type . 'type';
             $joins[] = ' left outer join sitra.' . $table_type . 'type y on y.id = t.' . $table_type . 'type_id ';
             $selects[] = 'c.libellefr as typelabel';
             $joins[] = ' left outer join sitra.' . $table_type . 'typelabel c on c.id = t.typelabel_id ';
             $selects[] = 'cp.libellefr as classementprefectoral';
             $joins[] = ' left outer join sitra.' . $table_type . 'classementprefectoral cp on cp.id = t.classementprefectoral_id ';
-        } elseif ($table_type == 'equipement') {
+        }
+        elseif ($table_type == 'equipement') {
             $selects[] = 'y.libellefr as ' . $table_type . 'type';
             $joins[] = ' left outer join sitra.' . $table_type . 'rubrique y on y.id = t.rubrique_id ';
         }
@@ -777,9 +818,11 @@ class ApidaeSIT extends PDO
     {
         if (is_array($entree)) {
             $sortie = [];
-            foreach ($entree as $e) $sortie[$e] = self::TYPES_OBJET_COURTS[$e];
+            foreach ($entree as $e)
+                $sortie[$e] = self::TYPES_OBJET_COURTS[$e];
             return $sortie;
-        } elseif (is_string($entree))
+        }
+        elseif (is_string($entree))
             return self::TYPES_OBJET_COURTS[$entree];
         return self::TYPES_OBJET_COURTS;
     }
